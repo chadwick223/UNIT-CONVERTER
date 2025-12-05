@@ -23,9 +23,21 @@ Uses clean Django GET/POST workflow
 
 Each page displays the result on the same view
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 Django form handling process:-
 
-Django's form handling uses all of the same techniques  performs any actions required including reading data from the models, then generates and returns an HTML page (from a template, into which we pass a context containing the data to be displayed). What makes things more complicated is that the server also needs to be able to process data provided by the user, and redisplay the page if there are any errors.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Django’s form system provides a structured way to display forms, validate user input, show errors, and process data safely. A form in Django is usually made of:
+
+Fields (text input, numbers, dropdowns, etc.)
+
+Server-side validation rules
+
+HTML automatically generated from the form class
+
+Django helps you avoid writing repetitive code for validation, error display, and data handling.
 
 A process flowchart of how Django handles form requests is shown below, starting with a request for a page containing a form (shown in green).
 
