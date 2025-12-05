@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from pint import UnitRegistry
 from pint import UnitRegistry
 ureg=UnitRegistry()
 from .forms import inputform
@@ -14,43 +17,67 @@ def index(request):
         return render(request,length.html,)
 
 def length(request):
-    form=inputform()
-    result=None
-    if request.method=="POST":
-        form=inputform(request.POST)
-        value=float(request.POST.get("value"))
-        result=print("somelogic")
-    return render(request,"unitapp/length.html",{"form": form, "result": result})
-    
-    #return HttpResponse("you're at length page")
-
-def height(request):
-    form=inputform()
-    result=None
-    if request.method=="POST":
-        form=inputform(request.POST)
-        value=float(request.POST.get("value"))
-        result=print("somelogic")
-    return render(request,"unitapp/height.html",{"form":form,"result":result})
-    
-    #return HttpResponse("you're at length page")
-
-@csrf_exempt
-def weight(request):
-    form=inputform()
     result=None
     if request.method=="POST":
         form=inputform(request.POST)
         if form.is_valid():
             value=form.cleaned_data["value"]
-            unit_from=form.cleaned_data["Unit_to_convert_from"]
-            unit_to=form.cleaned_data["unit_to_convert_to"]
+            from_unit=form.cleaned_data["Unit_to_convert_from"]
+            to_unit=form.cleaned_data["Unit_to_convert_to"]
 
-            try:
-                converted=(value*ureg(unit_from)).to(unit_to)
-                result=f"{converted.magnitude} {converted.units}"
-            except:
-                result="Invalid units"
-    return render(request,"unitapp/weight.html",{"form":form,"result":result})
+            quantity=value*ureg(from_unit)
+            converted=quantity.to(to_unit)
+            result=converted.magnitude
+        else:
+            pass
+    
+    else:
+        form=inputform()
+    return render(request,"unitapp/length.html",{"form": form, "result": result})
+    
+    #return HttpResponse("you're at length page")
+
+def height(request):
+    result=None
+    if request.method=="POST":
+        form=inputform(request.POST)
+
+        if form.is_valid():
+            value=form.cleaned_data["value"]
+            from_unit=form.cleaned_data["Unit_to_convert_from"]
+            to_unit=form.cleaned_data["Unit_to_convert_to"]
+
+            quantity=value*ureg(from_unit)
+            converted=quantity.to(to_unit)
+            result=converted.magnitude
+        else:
+            pass
+    else:
+        form=inputform()
+
+    return render(request,"unitapp/height.html",{"form":form,"result":result,})
+
+
+@csrf_exempt
+def weight(request):
+    result=None
+
+    if request.method=="POST":
+        form=inputform(request.POST)
+
+        if form.is_valid():
+            value=form.cleaned_data["value"]
+            from_unit=form.cleaned_data["Unit_to_convert_from"]
+            to_unit=form.cleaned_data["Unit_to_convert_to"]
+
+            quantity=value*ureg(from_unit)
+            converted=quantity.to(to_unit)
+            result=converted.magnitude
+        else:
+            pass
+    else:
+        form=inputform()
+
+    return render(request,"unitapp/weight.html",{"form":form,"result":result,})
     
     #return HttpResponse("you're at length page")

@@ -1,9 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Convert</button>
-</form>
-{% if result %}
-<h2>Result: {{ result }}</h2>
-{% endif %}
+        .container {
+            width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid black;
+            border-radius: 10px;
+        }
+
+        .tabs a {
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: blue;
+        }
+
+        input, button {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+        }
+
+        h3 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Unit Converter</h2>
+
+    <div class="tabs">
+        <a href="{% url 'length' %}">Length</a>
+        <a href="{% url 'weight' %}">Weight</a>
+        <a href="{% url 'height' %}">Temperature</a>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Convert</button>
+    </form>
+
+    {% if result %}
+        <h3>Result: {{ result }}</h3>
+    {% endif %}
+</div>
+
+</body>
+</html>
